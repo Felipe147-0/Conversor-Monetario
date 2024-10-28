@@ -7,44 +7,40 @@ import android.widget.TextView
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 
-
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
-    private val DOLLAR_VALUE = 5.50
+    private val DOLLAR_VALUE = 5.71                 // dolar em 28/10/24
     private lateinit var toDollarButton: Button
     private lateinit var toRealButton: Button
     private lateinit var outputTextView: TextView
-    private lateinit var inputEditText: EditText  //pois é
+    private lateinit var inputEditText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         findById()
-        configClickListener()
+
     }
 
     override fun onClick(v: View) {
-        if (v == toDollarButton) {
-            dollarConversion()
-        }else if (v == toRealButton){
-            realConversion()
+        when (v.id) {
+            toDollarButton.id -> dollarConversion()
+            toRealButton.id -> realConversion()
         }
     }
 
     private fun findById() {
         inputEditText = findViewById(R.id.edittext_value)
-        toRealButton.setOnClickListener(this)
-        toDollarButton.setOnClickListener(this)
+        toDollarButton = findViewById(R.id.button_convert_to_dollar)
+        toRealButton = findViewById(R.id.button_convert_to_real)
         outputTextView = findViewById(R.id.textview_output)
-    }
 
-    private fun configClickListener() {
-        toRealButton.setOnClickListener(this)
         toDollarButton.setOnClickListener(this)
+        toRealButton.setOnClickListener(this)
     }
 
-    private fun getValue(): Double{
+    private fun getValue(): Double {
         return try {
             inputEditText.text.toString().toDouble()
         } catch (e: NumberFormatException) {
@@ -53,15 +49,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun dollarConversion() {
-        var value = getValue()
-        value = value / DOLLAR_VALUE
-        outputTextView.text = "U$ $value"
-    }
-    private fun realConversion(){
-        var value = getValue()
-        value = value * DOLLAR_VALUE
-        outputTextView.text = "R$ $value"
+        val value = getValue() / DOLLAR_VALUE
+        outputTextView.text = String.format("U$ %.2f", value)
     }
 
-
+    private fun realConversion() {
+        val value = getValue() * DOLLAR_VALUE
+        outputTextView.text = String.format("R$ %.2f", value)
+    }
 }
