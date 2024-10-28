@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="@string/converter_para_dolar"
+            android:text="converter para dolar"
             android:textAllCaps="true" />
 
         <Button
